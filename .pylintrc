@@ -1,0 +1,64 @@
+[MASTER]
+# Controls how Pylint runs overall
+# jobs=1 means single process (safe for beginners, avoids multiprocessing issues)
+jobs=1
+
+# Pickle collected data for later comparisons
+persistent=yes
+
+[MESSAGES CONTROL]
+# Disable rules that are too strict or confusing for beginners
+disable=
+    C0114,  # missing-module-docstring (relaxed for small scripts)
+    R0903,  # too-few-public-methods (not relevant for ML scripts)
+    W0511,  # fixme (allow TODO/FIXME comments while learning)
+    R0801   # duplicate-code (too strict for beginner projects)
+
+[FORMAT]
+# Maximum number of characters on a single line
+# 88 matches Black's default to avoid conflicts
+max-line-length=88
+
+# Ignore long lines that are just URLs (common in ML research references)
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$
+
+# Expected indentation (4 spaces is Python standard)
+indent-string='    '
+
+[BASIC]
+# Allow short variable names that are standard in ML/data science
+# X, y = features/labels | df = dataframe | lr = learning rate
+good-names=i,j,k,x,y,X,df,lr,fn,fp,tp,tn,f1,ax
+
+# Naming convention for functions and variables (snake_case)
+function-rgx=[a-z_][a-z0-9_]{2,30}$
+variable-rgx=[a-z_][a-z0-9_]{0,30}$
+
+[DESIGN]
+# Be lenient on complexity — beginners often write longer functions
+max-args=8           # max parameters per function
+max-locals=20        # max local variables per function
+max-returns=6        # max return statements per function
+max-branches=15      # max if/else branches per function
+max-statements=60    # max statements per function
+
+[SIMILARITIES]
+# Minimum number of lines to flag as duplicate code
+# Higher = less strict (good for beginners)
+min-similarity-lines=10
+
+# Ignore imports when checking for similarities
+ignore-imports=yes
+
+[TYPECHECK]
+# Pylint struggles with dynamic attributes in ML libraries
+# This prevents false errors on numpy/pandas/sklearn operations
+ignored-modules=numpy,pandas,sklearn,tensorflow,torch,matplotlib
+ignored-classes=numpy,pandas,DataFrame,ndarray
+
+[REPORTS]
+# Show a score out of 10 at the end
+score=yes
+
+# Keep reports simple for beginners
+reports=no
